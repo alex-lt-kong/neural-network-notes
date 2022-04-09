@@ -26,7 +26,7 @@ Applying this filter to an image will result in a feature map that only contains
 
 Solarized dark             |  Solarized Ocean
 :-------------------------:|:-------------------------:
-![](./assets/line-detector/river-horizontal.jpg)  |  ![](https://...Ocean.png)
+![](./assets/line-detector/river-horizontal.jpg)  |  ![](./assets/line-detector/river-vertical.jpg) 
 
 ## Reference:
 * [How Do Convolutional Layers Work in Deep Learning Neural Networks?](https://machinelearningmastery.com/convolutional-layers-for-deep-learning-neural-networks/)
