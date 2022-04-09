@@ -16,17 +16,23 @@
 
 * The idea of applying the convolutional operation to image data is not new or unique to convolutional neural networks; it is a common technique used in computer vision. Historically, filters were designed by hand by computer vision experts, which hopefully makes the analysis of the image easier in some way.
 
-* For example, below is a hand crafted 3×3 element filter for detecting vertical lines:
-```
-0.0, 1.0, 0.0
-0.0, 1.0, 0.0
-0.0, 1.0, 0.0
-```
-Applying this filter to an image will result in a feature map that only contains vertical lines. It is a vertical line detector.
+* For example, below is a hand crafted 3×3 element filter for detecting vertical lines. Applying this filter to an image will result in a feature map that only contains vertical lines. It is a vertical line detector. (The effect is actually not quite obvious ¯\\_(ツ)_/¯)
 
-Solarized dark             |  Solarized Ocean
-:-------------------------:|:-------------------------:
-![](./assets/line-detector/river-horizontal.jpg)  |  ![](./assets/line-detector/river-vertical.jpg) 
+```
+0.0, 1.0, 0.0
+0.0, 1.0, 0.0
+0.0, 1.0, 0.0
+```
+
+![](./assets/line-detector/river.jpg)  |![](./assets/line-detector/river-vertical.jpg)  |  ![](./assets/line-detector/river-horizontal.jpg) 
+:-------------------------:|:-------------------------:|:-------------------------:
+Original Image | Applied Vertical Line Detector | Applied Horizontal Line Detector
+
+* The innovation of using the convolution operation in a neural network is that the values of the filter are weights to be learned during the training of the network.
+
+* Specifically, training with stochastic gradient descent, a network is forced to learn to extract features from the image that minimize the loss for the specific task the network is being trained to solve, e.g. extract features that are the most useful for classifying images as dogs or cats.
+
+* Convolutional layers are not only applied to input data, e.g. raw pixel values, but they can also be applied to the output of other layers. The stacking of convolutional layers allows a hierarchical decomposition of the input. For example, the filters that operate directly on the raw pixel values will learn to extract low-level features, such as lines, The filters that operate on the output of the first line layers may extract features that are combinations of lower-level features, such as features that comprise multiple lines to express shapes.
 
 ## Reference:
 * [How Do Convolutional Layers Work in Deep Learning Neural Networks?](https://machinelearningmastery.com/convolutional-layers-for-deep-learning-neural-networks/)
