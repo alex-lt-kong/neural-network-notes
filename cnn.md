@@ -24,5 +24,9 @@
 ```
 Applying this filter to an image will result in a feature map that only contains vertical lines. It is a vertical line detector.
 
+Solarized dark             |  Solarized Ocean
+:-------------------------:|:-------------------------:
+![](./assets/line-detector/river-horizontal.jpg)  |  ![](https://...Ocean.png)
+
 ## Reference:
 * [How Do Convolutional Layers Work in Deep Learning Neural Networks?](https://machinelearningmastery.com/convolutional-layers-for-deep-learning-neural-networks/)
