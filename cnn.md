@@ -24,21 +24,23 @@ data from the beginning (i.e., input layer) to the end (i.e., the output layer)
 ## Motivation
 
 * It is of course possible to use a vanilla FNN (e.g., a Multilayer Perceptron,
-MLP) to classify images, we just flatten the image and use all the pixels as
+MLP) to classify images, we just flatten the image (for an image that is H
+pixels in height, W pixels in width and has RGB channels, we can also say
+it is a *tensor* of `HxWx3`) and use all the pixels as
 the input layer:
 
 <p float="left">
     <img src="./assets/cnn/dnn-diagram.png" height="360px" />
 </p>
 
-* One of the most obvious issue is that the input layer could be very big.
-For example, if the image we want to classify is a 1080p image, the input
-layer will have 1920 x 1080 = 2,073,600 neurons.
+* One of the most obvious issue is that the neural network could easily be too
+big.
   * At first glance, the issue is not too big--as of 2023, GPT-4 has
-  ~1,000 billion parameters. The problem is, say we a color image with
-  a size of (224x244x3). The input layer in an MLP would have 150,528 neurons.
-  If we then have just three modest size hidden layers with 128 neurons
-  each followed by the input layer, we would exceed 300 billion trainable
+  ~1,000 billion parameters. However, consider this example: say we a
+  color image with a size of 224x244x3. The input layer in an MLP
+  would have 150,528 neurons. If we then have just three modest
+  size hidden layers with 128 neurons each followed by the input
+  layer, we would exceed 300 billion trainable
   parameters in the network, which is not much smaller then GPT-4 already.
 
 * Another probably trickier problem of MLP is that it is not "translation
@@ -49,42 +51,25 @@ content of the image is shifted:
     <img src="./assets/cnn/mlp-translation-invariant.png" height="360px" />
 </p>
 
+## Overview
 
-## Convolution operation
+* At a high level, a CNN contains an upstream feature extractor followed by
+a downstream classifier. Below is an illustration based on the VGG-16 CNN
+model:
 
-* In the context of a convolutional neural network, convolution is a
-linear operation that involves the multiplication of a set of weights
-with the input, much like a traditional neural network. The
-multiplication is performed between an array of input data
-(e.g., an image) and a two-dimensional array of weights, called a **filter**
-or a **kernel**.
+<p float="left">
+    <img src="./assets/cnn/cnn-feature-extractor-and-classifier.png" height="360px" />
+</p>
 
-* The type of multiplication applied between a filter-sized patch of the
-input and the filter is a dot product. A dot product is the element-wise
-multiplication between the filter-sized patch of the input and filter,
-which is then summed, always resulting in a single value.
+* The model begins with five convolutional blocks, constituting the model’s
+feature extraction segment. The feature extractor is followed by the
+classifier, which transforms the extracted features into class predictions
+in the final output layer.
 
-![2D Convolution Animation](./assets/cnn/2d-conv-animation.gif)
+* The convolutional blocks are what set a CNN apart, the classifier is usually
+ordinary MLP.
 
-* This systematic application of the *same* filter across an image is a
-powerful idea. If the filter is designed to detect a specific type of
-feature in the input, then the application of that filter systematically
-across the entire input image allows the filter an opportunity to discover
-that feature anywhere in the image.
-
-* The result of this systematic application is a two-dimensional array of
-output values that represent a filtering of the input. The two-dimensional
-output array from this operation is called a "feature map".
-
-* Once a feature map is created, we can pass each value in the feature
-map through a non-linear activation function, such as a ReLU, much like
-we do for the outputs of a fully connected layer.
-
-* Just for information, technically, the convolution as described in the
-use of convolutional neural networks is actually a "cross-correlation".
-Nevertheless, in deep learning, it is referred to as a "convolution"
-operation. Many machine learning libraries implement cross-correlation
-but call it convolution.
+## Convolution
 
 * The idea of applying the convolutional operation to image data is not
 new or unique to convolutional neural networks; it is a common technique
@@ -92,22 +77,64 @@ used in computer vision. Historically, filters were designed by hand by
 computer vision experts, which hopefully makes the analysis of the image
 easier in some way.
 
-* For example, below is a hand crafted 3×3 element filter for detecting
-vertical lines. Applying this filter to an image will result in a feature
-map that only contains vertical lines. It is a vertical line detector.
-(The effect is actually not quite obvious ¯\\_(ツ)_/¯)
+* To be specific, convolution is a linear operation that involves
+the multiplication of a set of weights with the input, much like a
+traditional neural network. The multiplication is performed between an
+n-dimensional array (a.k.a., a tensor) of input data (e.g., an image) and a
+m-dimensional array of weights, called a **filter** or a **kernel**.
 
-```
-0.0, 1.0, 0.0
-0.0, 1.0, 0.0
-0.0, 1.0, 0.0
-```
+* The type of multiplication applied between a filter-sized patch of the
+input and the filter/kernel is a dot product. A dot product is the element-wise
+multiplication between the filter-sized patch of the input and filter/kernel,
+which is then summed, always resulting in a single value.
 
-![](./assets/cnn/line-detector/river.jpg)  |![](./assets/cnn/line-detector/river-vertical.jpg)  |  ![](./assets/cnn/line-detector/river-horizontal.jpg) 
-:-------------------------:|:-------------------------:|:-------------------------:
-Original Image | Applied Vertical Line Detector | Applied Horizontal Line Detector
+    * The following animation shows how a 2d (6x6) tensor is convolved with a
+    3x3 filter/kernel:
+        <p float="left">
+            <img src="./assets/cnn/2d-conv-animation.gif" height="360px" />
+        </p>
+    * But what if the input tensor's shape is (6, 6, 3)? What should be the
+    shape of the filter/kernel and what should be the shape of its output?
+    
+        Answer: The filter/kernel *could* be a 3 by 3 by 3 one and the output is a 4x4 2d
+    array:
 
-## Convolutional layer
+        <p float="left">
+            <img src="./assets/cnn/3d-conv-animation.gif" height="360px" />
+        </p>
+
+        * Following the rule of our simpler 2d version, we do an element-wise
+        dot-product, which gives us 27 values, we sum them up, move the 3d
+        filter one step right, then repeat, the resultant array should be a
+        4 by 4 two-dimensional array.
+
+* The result of this systematic application is a two-dimensional array of
+output values that represent a filtering of the input. The two-dimensional
+output array from this operation is called a **feature map**.
+
+* Let's have a concrete example on what exactly we can see after applying
+convolution. Below is a 3×3 filter called [sobel filter](https://en.wikipedia.org/wiki/Sobel_operator) used to detect edges:
+
+    ```
+    1, 0, -1
+    2, 0, -2
+    1, 0, -1
+    ```
+    * A tiny [toy project](./assets/cnn/sobel-kernel/) produces the feature map with a valve convolved with it.
+
+![](./assets/cnn/sobel-kernel/valve-original.png)  |![](./assets/cnn/sobel-kernel/valve-convolved.png) 
+:-------------------------:|:-------------------------:
+Original Image | Convolved with Sobel kernel (a feature map)
+
+
+* Once a feature map is created, we can pass each value in the feature
+map through a non-linear activation function, such as a ReLU, much like
+we do for the outputs of a fully connected layer.
+
+
+## How data flow through a CNN
+
+### Step 1. Convolutional layer
 
 * The innovation of using the convolution operation in a neural network
 is that the values of the filter are weights to be learned during the
@@ -133,9 +160,14 @@ multiple features in parallel for a given input. For example, it is common
 for a convolutional layer to learn from 32 to 512 filters in parallel
 for a given input.
 
-* **Feature Map**: the output of one filter applied to the previous layer. A given filter is drawn across the entire previous layer, moved one pixel at a time. Each position results in an activation of the neuron and the output is collected in the feature map.
+* **Feature Map**: the output of one filter applied to the previous layer.
+A given filter is drawn across the entire previous layer, moved one pixel at
+a time. Each position results in an activation of the neuron and the output
+is collected in the feature map.
 
-* **Stride**: The distance that filter is moved across the the input from the previous layer.
+* **Stride**: The distance that filter is moved across the the input from
+the previous layer.
+
 ![](./assets/cnn/stride.jpg) 
 
 * **Padding**: Every time we use the filter to scan an image, the size of the image will go smaller and smaller. We don’t want that, because we wanna preserve the original size of the image to extract some low level features. Therefore, we will add some extra pixels outside the image and 
