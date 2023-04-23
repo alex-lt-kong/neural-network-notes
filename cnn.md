@@ -3,15 +3,15 @@
 * A vanilla feed-forward neural network is usually illustrated as something below:
 
     <p float="left">
-        <img src="./assets/cnn/fnn-diagram-1.jpg" height="300px" />    
-        <img src="./assets/cnn/fnn-diagram-2.png" height="300px" />
+        <img src="./assets/cnn/fnn-diagram-1.jpg" height="240px" />
+        <img src="./assets/cnn/fnn-diagram-2.png" height="240px" />
     </p>
 
 * A convolutional neural network is illustrated very differently:
 
     <p float="left">
-        <img src="./assets/cnn/cnn-diagram-1.webp" height="360px" />    
-        <img src="./assets/cnn/cnn-diagram-2.jpg" height="360px" />
+        <img src="./assets/cnn/cnn-diagram-1.webp" height="300px" />
+        <img src="./assets/cnn/cnn-diagram-2.jpg" height="300px" />
     </p>
 
 * They look pretty confusing for the uninitiated--
@@ -149,7 +149,6 @@ output array from this operation is called a **feature map**.
     we wanna preserve the original size of the image to extract some low
     level features. Therefore, we will add some extra pixels outside the
     image and this process is called padding.
-
       ![](./assets/cnn/padding/without-padding.jpg)  |![](./assets/cnn/padding/zero-padding.jpg)|
       :-------------------------:|:-------------------------:|
       No padding, output is smaller | Zero padding, output same as input |
