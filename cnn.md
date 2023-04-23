@@ -57,7 +57,7 @@ model (considered to be state-of-the-art in ~2020-2021):
 
     ![](./assets/cnn/cnn-feature-extractor-and-classifier.png)  |![](./assets/cnn/cnn-diagram-with-explicit-dense-classifier.jpg)|
     :-------------------------:|:-------------------------:|
-    A typical CNN diagram with feature extractor and classifier, but not showing densely connected layers | CNN diagram that shows densely connected layers |
+    A typical CNN diagram, without explicitly showing densely connected layers | CNN diagram that also shows densely connected layers |
 
   * These two diagrams essentially show the same architecture (i.e., VGG-16),
   the right-hand side one can be less confusing as it shows the densely
@@ -128,18 +128,21 @@ output array from this operation is called a **feature map**.
 * There are two more important technical details of a convolution operation:
 
     1. **Stride**: the distance that filter is moved across the the input from
-    the previous layer. The below illustration shows the output with stride=1
+    the previous layer. The below illustration shows the output (i.e., a
+    feature map) with stride=1
     and stride=2.
-      ![Illustration of stride](./assets/cnn/stride.jpg)
+
+    ![Illustration of stride](./assets/cnn/stride.jpg)
 
     1. **Padding**: Every time we use a filter to scan an image, the size
-    of the image will go smaller and smaller. We don’t want that, because
-    we wanna preserve the original size of the image to extract some low
-    level features. Therefore, we will add some extra pixels outside the
-    image and this process is called padding.
-      ![](./assets/cnn/padding/without-padding.jpg)  |![](./assets/cnn/padding/zero-padding.jpg)|
-      :-------------------------:|:-------------------------:|
-      No padding, output is smaller | Zero padding, output same as input |
+    of the image will go smaller and smaller if the filter does not go beyond
+    the boundary of the input tensor. We don’t want that. So we add some
+    extra values around the original the input tensor (e.g., an image).
+    This process is called padding.
+
+    ![](./assets/cnn/padding/without-padding.jpg)  |![](./assets/cnn/padding/zero-padding.jpg)|
+    :-------------------------:|:-------------------------:|
+    No padding, output is smaller | Zero padding, output same as input |
 
 The distance that filter is moved across the the input from the previous layer each activation is referred to as the stride.
 
