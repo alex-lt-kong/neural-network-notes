@@ -10,8 +10,8 @@
 * A convolutional neural network is illustrated very differently:
 
     <p float="left">
-        <img src="./assets/cnn/cnn-diagram-1.webp" height="240px" />
-        <img src="./assets/cnn/cnn-diagram-2.jpg" height="240px" />
+        <img src="./assets/cnn/cnn-diagram-1.webp" height="260px" />
+        <img src="./assets/cnn/cnn-diagram-2.jpg" height="260px" />
     </p>
 
 * They look pretty confusing for the uninitiated--
@@ -55,21 +55,9 @@ content of the image is shifted:
 a downstream classifier. Below is illustrations based on the VGG-16 CNN
 model (considered to be state-of-the-art in ~2020-2021):
 
-    <p float="left">
-        <figure style="display: inline-block;">
-            <img src='./assets/cnn/cnn-feature-extractor-and-classifier.png'
-                height="240px" alt='cnn-feature-extractor-and-classifier' />
-            <figcaption>
-                A typical CNN diagram with feature extractor and classifier,
-                but not showing densely connected layers
-            </figcaption>
-        </figure>
-        <figure style="display: inline-block;">
-            <img src='./assets/cnn/cnn-diagram-with-explicit-dense-classifier.jpg'
-                height="240px" alt='cnn-diagram-with-explicit-dense-classifier' />
-            <figcaption>CNN diagram that shows densely connected layers</figcaption>
-        </figure>
-    </p>
+    ![](./assets/cnn/cnn-feature-extractor-and-classifier.png)  |![](./assets/cnn/cnn-diagram-with-explicit-dense-classifier.jpg)|
+    :-------------------------:|:-------------------------:|
+    A typical CNN diagram with feature extractor and classifier, but not showing densely connected layers | CNN diagram that shows densely connected layers |
 
   * These two diagrams essentially show the same architecture (i.e., VGG-16),
   the right-hand side one can be less confusing as it shows the densely
