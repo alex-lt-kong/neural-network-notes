@@ -58,7 +58,7 @@ model (considered to be state-of-the-art in ~2020-2021):
     <p float="left">
         <figure style="display: inline-block;">
             <img src='./assets/cnn/cnn-feature-extractor-and-classifier.png'
-                height="360px" alt='cnn-feature-extractor-and-classifier' />
+                height="240px" alt='cnn-feature-extractor-and-classifier' />
             <figcaption>
                 A typical CNN diagram with feature extractor and classifier,
                 but not showing densely connected layers
@@ -66,7 +66,7 @@ model (considered to be state-of-the-art in ~2020-2021):
         </figure>
         <figure style="display: inline-block;">
             <img src='./assets/cnn/cnn-diagram-with-explicit-dense-classifier.jpg'
-                height="360px" alt='cnn-diagram-with-explicit-dense-classifier' />
+                height="240px" alt='cnn-diagram-with-explicit-dense-classifier' />
             <figcaption>CNN diagram that shows densely connected layers</figcaption>
         </figure>
     </p>
