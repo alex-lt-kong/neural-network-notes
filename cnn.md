@@ -3,15 +3,15 @@
 * A vanilla feed-forward neural network is usually illustrated as something below:
 
     <p float="left">
-        <img src="./assets/cnn/fnn-diagram-1.jpg" height="240px" />
-        <img src="./assets/cnn/fnn-diagram-2.png" height="240px" />
+        <img src="./assets/cnn/fnn-diagram-1.jpg" height="220px" />
+        <img src="./assets/cnn/fnn-diagram-2.png" height="220px" />
     </p>
 
 * A convolutional neural network is illustrated very differently:
 
     <p float="left">
-        <img src="./assets/cnn/cnn-diagram-1.webp" height="300px" />
-        <img src="./assets/cnn/cnn-diagram-2.jpg" height="300px" />
+        <img src="./assets/cnn/cnn-diagram-1.webp" height="240px" />
+        <img src="./assets/cnn/cnn-diagram-2.jpg" height="240px" />
     </p>
 
 * They look pretty confusing for the uninitiated--
